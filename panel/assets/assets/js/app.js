@@ -494,23 +494,6 @@
 			$(document).on('click', '#customizer-reset-btn', this.resetSettings);
 		},
 
-		setMenubarTheme: function() {
-			var $this = $(this);
-			if (app.menubar.getCurrentTheme() !== $this.attr('data-theme')) {
-				app.menubar.setTheme($this.attr('data-theme'));
-				app.menubar.applyTheme();
-				app.saveSettings();
-			}
-		},
-
-		setNavbarTheme: function(e){
-			var $this = $(this);
-			if (app.navbar.getCurrentTheme() !== $this.attr('data-theme')) {
-				app.navbar.setTheme($this.attr('data-theme'));
-				app.navbar.applyTheme();
-				app.saveSettings();
-			}
-		},
 
 		toggleMenubarFold: function(){
 			if ($(this).is(':checked')) {
@@ -554,6 +537,13 @@
 // initialize app
 +function($, window) { 'use strict';
 	window.app.init();
+
+    window.app.menubar.setTheme("dark");
+	window.app.menubar.applyTheme();
+	window.app.navbar.setTheme("warning");
+	window.app.navbar.applyTheme();
+	window.app.saveSettings();
+
 	window.app.menubar.init();
 	window.app.navbar.init();
 	window.app.customizer.init();

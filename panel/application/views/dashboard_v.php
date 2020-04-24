@@ -34,6 +34,8 @@
 <!--========== END app main -->
 
 <!-- APP CUSTOMIZER -->
+
+
 <!-- #app-customizer -->
 
 <!-- SIDE PANEL -->
