@@ -2,7 +2,7 @@
 	<div class="col-md-12">
 		<h4 class="m-b-lg">
 			Ürün Listesi
-			<a href="#" class="btn pull-right btn-outline btn-primary btn-xs"> <i class="fa fa-plus">Yeni Ekle</i></a>
+			<a href="<?php echo base_url("product/new_form"); ?>" class="btn pull-right btn-outline btn-primary btn-xs"> <i class="fa fa-plus">Yeni Ekle</i></a>
 		</h4>
 	</div>
 	<div class="col-md-12">
@@ -11,7 +11,7 @@
 				<div class="alert alert-info text-center ">
 
 
-					<p>Burada herhngi bir veri bulunmamaktadır.Eklemek için lütfen <a href="#">tıklayınız.</a></p>
+					<p>Burada herhngi bir veri bulunmamaktadır.Eklemek için lütfen <a href="<?php echo base_url("product/new_form"); ?>">tıklayınız.</a></p>
 				</div>
 			<?php } else{ ?>
 
