@@ -17,5 +17,6 @@
 <script src="<?php echo base_url("assets"); ?>/libs/bower/moment/moment.js"></script>
 <script src="<?php echo base_url("assets"); ?>/libs/bower/fullcalendar/dist/fullcalendar.min.js"></script>
 <script src="<?php echo base_url("assets"); ?>/assets/js/fullcalendar.js"></script>
-<script src="<?php echo base_url("assets"); ?>/assets/js/sweetalert2.all.js"></script>
+
 <script src="<?php echo base_url("assets"); ?>/assets/js/custom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>

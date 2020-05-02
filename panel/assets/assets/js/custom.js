@@ -1,11 +1,27 @@
 $(document).ready(function(){
-	
-	swal({
-		title: 'Error!',
-		text: 'Do you want to continue',
-		type: 'error',
-		confirmButtonText: 'Cool'
+	$(".remove-btn").click(function(e){
+
+       var $data_url = $(this).data("url");
+		Swal.fire({
+			title: 'Emin misiniz?',
+			text: "Bu işlemi geri alamayacaksınız!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Evet, Sil!',
+			cancelButtonText: "Hayır"
+		}).then((result) => {
+			if (result.value) {
+				window.location.href = $data_url;
+				Swal.fire(
+					'Silindi!',
+					
+					)
+				
+			}
+		});
+
 	})
-
-
+	
 })
