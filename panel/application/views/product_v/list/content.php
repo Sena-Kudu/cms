@@ -34,7 +34,8 @@
 									<td><?php echo $items->description; ?></td>
 									<td>
 										<input 
-										 
+										data-url="<?php echo base_url("product/isActiveSetter/$items->id");?>"
+										class="isActive" 
 										type="checkbox" 
 										data-switchery data-color="#10c469" 
 										<?php if($items->isActive == "1"){ 
@@ -46,8 +47,10 @@
 
 									</td>
 									<td>
-										<button data-url="<?php echo base_url("product/delete/$items->id"); ?>" class="btn btn-outline btn-danger remove-btn">SiL<i class="fa fa-trash"></i><button/>
-											<a href="<?php echo base_url("product/update_form/$items->id"); ?>" class="btn btn-outline btn-info">Düzenle<i class="fa fa-pencil-square-o"></i><a/>
+										<button data-url="<?php echo base_url("product/delete/$items->id"); ?>" class="btn btn-outline btn-danger remove-btn">SiL<i class="fa fa-trash"></i></button>
+
+											
+												<a href="<?php echo base_url("product/update_form/$items->id") ;?>" class="btn btn-outline btn-info">Düzenle<i class="fa fa-pencil-square-o"></i></a>
 
 											</td>
 										</tr>
