@@ -17,20 +17,22 @@
 
 				<table class="table table-hover table-striped">
 					<thead>
+						<th><i class = "fa fa-reorder"></i></th>
 						<th>#id</th>
-						<th>url</th>
 						<th>Başlık</th>
+						<th>url</th>
 						<th>Açıklama</th>
 						<th>Durumu</th>
 						<th>İşlem</th>
-						<tbody>
+						<tbody class= "sortable" data-url = "<?php echo base_url("product/rankSetter"); ?>">
 							<?php foreach ($items as $items) {
 							# code...
 								?>	
-								<tr>
+								<tr id="ord-<?php echo $items->id; ?>">
+									<td><i class = "fa fa-reorder"></i></td>
 									<td><?php echo $items->id; ?></td>
-									<td><?php echo $items->url; ?></td>
 									<td><?php echo $items->title; ?></td>
+									<td><?php echo $items->url; ?></td>
 									<td><?php echo $items->description; ?></td>
 									<td>
 										<input 

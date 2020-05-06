@@ -17,7 +17,9 @@ class Product extends CI_Controller {
 		
 
 		/** Tablodan verilerin getirilmesi */
-		$items = $this->product_model->get_all();
+		$items = $this->product_model->get_all(
+         array(), "rank ASC"
+		);
 		
 
 		/** View e gönderilecek değişkenlerin set edilmesi */
@@ -50,7 +52,7 @@ class Product extends CI_Controller {
 				"required" => "<b>{field}</b> alanı doldurulmalıdır."    
 			)
 		);
-        
+
 		$validate = $this->form_validation->run(); 
 		
 
@@ -96,15 +98,15 @@ class Product extends CI_Controller {
 	public function update_form($id){
 
 
-			$viewData = new stdClass();
-			/** Tablodan verilerin getirilmesi */
-			$item = $this->product_model->get(
-                    array(
-                        "id" => $id
+		$viewData = new stdClass();
+		/** Tablodan verilerin getirilmesi */
+		$item = $this->product_model->get(
+			array(
+				"id" => $id
 
-                    )
-			);
-			
+			)
+		);
+
 
 
 		/** View e gönderilecek değişkenlerin set edilmesi */
@@ -114,7 +116,7 @@ class Product extends CI_Controller {
 		$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
 
 	}
-		public function update($id){
+	public function update($id){
 		$this->load->library("form_validation");
 		//kurallar yazılır.
 		$this->form_validation->set_rules("title","Başlık","required|trim");
@@ -125,7 +127,7 @@ class Product extends CI_Controller {
 				"required" => "<b>{field}</b> alanı doldurulmalıdır."    
 			)
 		);
-        
+
 		$validate = $this->form_validation->run(); 
 		
 
@@ -133,7 +135,7 @@ class Product extends CI_Controller {
 			
 			$update = $this->product_model->update(
 				array(
-                      "id" => $id 
+					"id" => $id 
 				),
 				array(
 					"title"       => $this->input->post("title"),
@@ -160,10 +162,10 @@ class Product extends CI_Controller {
 
 			$viewData = new stdClass();
 			$item = $this->product_model->get(
-                    array(
-                        "id" => $id
+				array(
+					"id" => $id
 
-                    )
+				)
 			);
 
 			/** View e gönderilecek değişkenlerin set edilmesi */
@@ -179,21 +181,21 @@ class Product extends CI_Controller {
 	}
 	
 	public function delete($id){
-   
-     $delete = $this->product_model->delete(
-       array(
-       	"id"  => $id
-       )
-     );
+
+		$delete = $this->product_model->delete(
+			array(
+				"id"  => $id
+			)
+		);
 
      //TODO Alert sistemi eklenecek.
-     if($delete){
+		if($delete){
 
-     	redirect(base_url("product"));
-     }
-     else{
-     	redirect(base_url("product"));
-     }
+			redirect(base_url("product"));
+		}
+		else{
+			redirect(base_url("product"));
+		}
 
 	}
 
@@ -204,12 +206,31 @@ class Product extends CI_Controller {
 			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
 			
 			$this->product_model->update(
-                  array(
-                      "id"  => $id
-                  ),
-                  array(
-                       "isActive" => $isActive
-                  )
+				array(
+					"id"  => $id
+				),
+				array(
+					"isActive" => $isActive
+				)
+			);
+		}
+	}
+
+	public function rankSetter(){
+
+		$data = $this->input->post("data");
+		parse_str($data, $order);
+		$items = $order["ord"];
+		foreach ($items as $rank => $id) {
+			$this->product_model->update(
+                array(
+                	"id"     => $id,
+                	"rank!=" => $rank
+                ),
+                array(
+
+                	"rank"=> $rank
+                )
 			);
 		}
 	}
