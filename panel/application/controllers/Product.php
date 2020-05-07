@@ -93,8 +93,8 @@ class Product extends CI_Controller {
 			
 		} 
 
+    }
 
-	}
 	public function update_form($id){
 
 
@@ -116,6 +116,7 @@ class Product extends CI_Controller {
 		$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
 
 	}
+
 	public function update($id){
 		$this->load->library("form_validation");
 		//kurallar yazılır.
@@ -177,8 +178,7 @@ class Product extends CI_Controller {
 			
 		} 
 
-
-	}
+    }
 	
 	public function delete($id){
 
@@ -214,6 +214,7 @@ class Product extends CI_Controller {
 				)
 			);
 		}
+
 	}
 
 	public function rankSetter(){
@@ -233,7 +234,21 @@ class Product extends CI_Controller {
                 )
 			);
 		}
+
 	}
+
+	public function image_form($id){
+
+		$viewData = new stdClass();
+
+			/** View e gönderilecek değişkenlerin set edilmesi */
+			$viewData->viewFolder = $this->viewFolder;
+			$viewData->subViewFolder= "image";
+			$viewData->form_error= true;
+			$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
+
+	}
+
 }
 
 

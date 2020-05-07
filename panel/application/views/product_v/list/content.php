@@ -53,6 +53,7 @@
 
 											
 												<a href="<?php echo base_url("product/update_form/$items->id") ;?>" class="btn btn-outline btn-info">Düzenle<i class="fa fa-pencil-square-o"></i></a>
+												<a href="<?php echo base_url("product/image_form/$items->id") ;?>" class="btn btn-outline btn-dark">Resimler<i class="fa fa-image"></i></a>
 
 											</td>
 										</tr>
