@@ -1,10 +1,5 @@
 <div class="row">
-	<div class="col-md-12">
-		<h4 class="m-b-lg">
-			Ürün Fotoğrafları
-			
-		</h4>
-	</div>
+	
 	<div class="col-md-12">
 		<div class="widget">
 
@@ -38,7 +33,7 @@
 				
 			</div><!-- .widget-body -->
 
-			<table class= "table table-bordered table-striped table-hover">
+			<table class= "table table-bordered table-striped table-hover pictures_list">
 				<thead>
 					<th>#id</th>
 					<th>Görsel</th>
@@ -46,63 +41,48 @@
 					<th>Durumu</th>
 					<th>İşlem</th>
 				</thead>
+				<tbody>
 				<tr>
-					<td>#1</td>
-					<td>
-						<img width="50" src="https://lh3.googleusercontent.com/proxy/K2-wjycHqq_calNitH2IysGp54YqidkNL3tgt5yvnL0jkemr0U8sjjILG5uLSLyGmUjX6IcfiY-MuyfjUz0mqhsKNOjbq7kKUfoVKGyUAjFfu9wpeVw7gF0Fpdz30Iz8LOE_WU9pLkyNqd-V" class="img-responsive"></img>
+					<td class= "w100 text-center">#1</td>
+					<td class= "w100 text-center">
+						<img width="50" src="https://n11scdn.akamaized.net/a1/217/otomotiv-motosiklet/koltuk-baslik/alfa-romeo-2li-papyon-boyun-yastigi__0992844833120766.jpg" class="img-responsive"></img>
 					</td>
 					<td>deneme-urunu.jpg</td>
-					<td>
+					<td class= "w100 text-center">
 						<input 
 						data-url="<?php echo base_url("product/isActiveSetter");?>"
 						class="isActive" 
 						type="checkbox" 
 						data-switchery data-color="#10c469" 
-						 <?php echo (true) ? "checked" : ""; ?>/>
+						<?php echo (true) ? "checked" : ""; ?>/>
 
 					</td>
-					<td>
-						<button data-url="<?php echo base_url("product/delete"); ?>" class="btn btn-outline btn-danger remove-btn">SiL<i class="fa fa-trash"></i></button>
+					<td class= "w100 text-center" >
+						<button data-url="<?php echo base_url("product/delete"); ?>" class="btn btn-outline btn-danger btn-block remove-btn">SiL<i class="fa fa-trash"></i></button>
 					</td>
 				</tr>
 				<tr>
-					<td>#1</td>
-					<td>
-						<img width="50" src="https://lh3.googleusercontent.com/proxy/K2-wjycHqq_calNitH2IysGp54YqidkNL3tgt5yvnL0jkemr0U8sjjILG5uLSLyGmUjX6IcfiY-MuyfjUz0mqhsKNOjbq7kKUfoVKGyUAjFfu9wpeVw7gF0Fpdz30Iz8LOE_WU9pLkyNqd-V" class="img-responsive"></img>
+					<td class= "w100 text-center">#1</td>
+					<td class= "w100 text-center">
+						<img width="50" src="https://n11scdn.akamaized.net/a1/217/otomotiv-motosiklet/koltuk-baslik/alfa-romeo-2li-papyon-boyun-yastigi__0992844833120766.jpg" class="img-responsive"></img>
 					</td>
 					<td>deneme-urunu.jpg</td>
-					<td>
+					<td class= "w100 text-center">
 						<input 
 						data-url="<?php echo base_url("product/isActiveSetter");?>"
 						class="isActive" 
 						type="checkbox" 
 						data-switchery data-color="#10c469" 
-						 <?php echo (true) ? "checked" : ""; ?>/>
+						<?php echo (true) ? "checked" : ""; ?>/>
 
 					</td>
-					<td>
-						<button data-url="<?php echo base_url("product/delete"); ?>" class="btn btn-outline btn-danger remove-btn">SiL<i class="fa fa-trash"></i></button>
+					<td class= "w100 text-center" >
+						<button data-url="<?php echo base_url("product/delete"); ?>" class="btn btn-outline btn-danger btn-block remove-btn">SiL<i class="fa fa-trash"></i></button>
 					</td>
 				</tr>
-				<tr>
-					<td>#1</td>
-					<td>
-						<img width="50" src="https://lh3.googleusercontent.com/proxy/K2-wjycHqq_calNitH2IysGp54YqidkNL3tgt5yvnL0jkemr0U8sjjILG5uLSLyGmUjX6IcfiY-MuyfjUz0mqhsKNOjbq7kKUfoVKGyUAjFfu9wpeVw7gF0Fpdz30Iz8LOE_WU9pLkyNqd-V" class="img-responsive"></img>
-					</td>
-					<td>deneme-urunu.jpg</td>
-					<td>
-						<input 
-						data-url="<?php echo base_url("product/isActiveSetter");?>"
-						class="isActive" 
-						type="checkbox" 
-						data-switchery data-color="#10c469" 
-						 <?php echo (true) ? "checked" : ""; ?>/>
-
-					</td>
-					<td>
-						<button data-url="<?php echo base_url("product/delete"); ?>" class="btn btn-outline btn-danger remove-btn">SiL<i class="fa fa-trash"></i></button>
-					</td>
-				</tr>
+				
+				
+				</tbody>
 
 			</table>
 			
