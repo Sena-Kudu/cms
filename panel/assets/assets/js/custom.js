@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 		$.post($data_url , {data : $data} , function(response){
 
-			alert(response);
+			
 
 		 })
 	})
