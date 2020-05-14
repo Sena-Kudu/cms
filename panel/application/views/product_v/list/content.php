@@ -11,7 +11,7 @@
 				<div class="alert alert-info text-center ">
 
 
-					<p>Burada herhngi bir veri bulunmamaktadır.Eklemek için lütfen <a href="<?php echo base_url("product/new_form"); ?>">tıklayınız.</a></p>
+					<p>Burada herhangi bir veri bulunmamaktadır.Eklemek için lütfen <a href="<?php echo base_url("product/new_form"); ?>">tıklayınız.</a></p>
 				</div>
 			<?php } else{ ?>
 
