@@ -358,6 +358,26 @@ class Product extends CI_Controller {
 
 	}
 
+	public function imageIsActiveSetter($id){
+
+		if($id){
+			$isActive = ($this->input->post("data") === "true") ? 1 : 0;
+			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
+			
+			$this->product_image_model->update(
+				array(
+					"id"  => $id
+				),
+				array(
+					"isActive" => $isActive
+				)
+			);
+		}
+
+
+	}
+
+
 
 }
 
