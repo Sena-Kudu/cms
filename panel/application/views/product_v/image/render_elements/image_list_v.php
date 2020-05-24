@@ -44,7 +44,7 @@ data-switchery data-color="#ff5b5b"
 
 </td>
 <td class= "w100 text-center" >
-<button data-url="<?php echo base_url("product/delete"); ?>" class="btn btn-outline btn-danger btn-block remove-btn">SiL<i class="fa fa-trash"></i></button>
+<button data-url="<?php echo base_url("product/imageDelete/$image->id/$image->product_id"); ?>" class="btn btn-outline btn-danger btn-block remove-btn">SiL<i class="fa fa-trash"></i></button>
 </td>
 
 </tr>

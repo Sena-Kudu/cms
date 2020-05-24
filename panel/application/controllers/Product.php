@@ -9,7 +9,7 @@ class Product extends CI_Controller {
 		parent::__construct();
 		$this->viewFolder = "product_v";
 		$this->load->model("product_model");
-        $this->load->model("product_image_model");
+		$this->load->model("product_image_model");
 
 	}
 	public function index()
@@ -19,7 +19,7 @@ class Product extends CI_Controller {
 
 		/** Tablodan verilerin getirilmesi */
 		$items = $this->product_model->get_all(
-         array(), "rank ASC"
+			array(), "rank ASC"
 		);
 		
 
@@ -94,7 +94,7 @@ class Product extends CI_Controller {
 			
 		} 
 
-    }
+	}
 
 	public function update_form($id){
 
@@ -179,7 +179,7 @@ class Product extends CI_Controller {
 			
 		} 
 
-    }
+	}
 	
 	public function delete($id){
 
@@ -196,6 +196,34 @@ class Product extends CI_Controller {
 		}
 		else{
 			redirect(base_url("product"));
+		}
+
+	}
+
+	public function imageDelete($id, $parent_id){
+
+		$fileName = $this->product_image_model->get(
+            array(
+                   "id" => $id
+            )
+		);
+
+		$delete = $this->product_image_model->delete(
+			array(
+				"id"         => $id,
+				"product_id" => $parent_id
+			)
+		);
+
+     //TODO Alert sistemi eklenecek.
+		if($delete){
+
+			unlink("uploads/{$this->viewFolder}/$fileName->img_url");
+
+			redirect(base_url("product/image_form/$parent_id"));
+		}
+		else{
+			redirect(base_url("product/image_form/$parent_id"));
 		}
 
 	}
@@ -225,14 +253,14 @@ class Product extends CI_Controller {
 		$items = $order["ord"];
 		foreach ($items as $rank => $id) {
 			$this->product_model->update(
-                array(
-                	"id"     => $id,
-                	"rank!=" => $rank
-                ),
-                array(
+				array(
+					"id"     => $id,
+					"rank!=" => $rank
+				),
+				array(
 
-                	"rank"=> $rank
-                )
+					"rank"=> $rank
+				)
 			);
 		}
 
@@ -245,14 +273,14 @@ class Product extends CI_Controller {
 		$items = $order["ord"];
 		foreach ($items as $rank => $id) {
 			$this->product_image_model->update(
-                array(
-                	"id"     => $id,
-                	"rank!=" => $rank
-                ),
-                array(
+				array(
+					"id"     => $id,
+					"rank!=" => $rank
+				),
+				array(
 
-                	"rank"=> $rank
-                )
+					"rank"=> $rank
+				)
 			);
 		}
 
@@ -262,75 +290,75 @@ class Product extends CI_Controller {
 
 		$viewData = new stdClass();
 
-			/** View e gönderilecek değişkenlerin set edilmesi */
-			$viewData->viewFolder = $this->viewFolder;
-			$viewData->subViewFolder= "image";
+		/** View e gönderilecek değişkenlerin set edilmesi */
+		$viewData->viewFolder = $this->viewFolder;
+		$viewData->subViewFolder= "image";
 
-			$viewData->items = $this->product_model->get(
-              array(
-               "id" => $id
-              )
-			);
+		$viewData->items = $this->product_model->get(
+			array(
+				"id" => $id
+			)
+		);
 
-			$viewData->item_images = $this->product_image_model->get_all(
-              array(
-               "product_id" => $id
-              ),
-              "rank ASC"
-			);
-			
+		$viewData->item_images = $this->product_image_model->get_all(
+			array(
+				"product_id" => $id
+			),
+			"rank ASC"
+		);
 
-			$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
+
+		$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
 
 	}
 
 	public function image_upload($id){
 		$file_name = convertToSEO(pathinfo($_FILES["file"]["name"], PATHINFO_FILENAME)) . "." . pathinfo($_FILES["file"]["name"] , PATHINFO_EXTENSION);
 
-	$config["allowed_types"] = "jpg|jpeg|png"	;
-	$config["upload_path"]   = "uploads/$this->viewFolder/";
-	$config["file_name"]     = $file_name;
- 
-     $this->load->library("upload", $config);
-     $upload = $this->upload->do_upload("file");
-     if($upload){
-     	$uploaded_file = $this->upload->data("file_name");
+		$config["allowed_types"] = "jpg|jpeg|png"	;
+		$config["upload_path"]   = "uploads/$this->viewFolder/";
+		$config["file_name"]     = $file_name;
 
-     	$this->product_image_model->add(
+		$this->load->library("upload", $config);
+		$upload = $this->upload->do_upload("file");
+		if($upload){
+			$uploaded_file = $this->upload->data("file_name");
 
-            array(
-                  "img_url"    => $uploaded_file,
-                  "rank"       => 0,
-                  "isActive"   => 1,
-                  "createdAt"  =>date("Y-m-d H:i:s"),
-                  "product_id" =>$id
-            )
-     	);
-     }else{
-     	echo " işlem başarısız";
-     }
+			$this->product_image_model->add(
+
+				array(
+					"img_url"    => $uploaded_file,
+					"rank"       => 0,
+					"isActive"   => 1,
+					"createdAt"  =>date("Y-m-d H:i:s"),
+					"product_id" =>$id
+				)
+			);
+		}else{
+			echo " işlem başarısız";
+		}
 
 	}
 
 	public function refresh_image_list($id){
 		$viewData = new stdClass();
 
-			/** View e gönderilecek değişkenlerin set edilmesi */
-			$viewData->viewFolder = $this->viewFolder;
-			$viewData->subViewFolder= "image";
+		/** View e gönderilecek değişkenlerin set edilmesi */
+		$viewData->viewFolder = $this->viewFolder;
+		$viewData->subViewFolder= "image";
 
-			$viewData->item_images = $this->product_image_model->get_all(
-              array(
-               "product_id" => $id
-              )
-			);
-			
+		$viewData->item_images = $this->product_image_model->get_all(
+			array(
+				"product_id" => $id
+			)
+		);
 
-			$render_html = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_v",$viewData,true);
-			echo $render_html;
+
+		$render_html = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_v",$viewData,true);
+		echo $render_html;
 	}
 
-		public function isCoverSetter($id, $parent_id){
+	public function isCoverSetter($id, $parent_id){
 
 		if($id && $parent_id){
 			$isCover = ($this->input->post("data") === "true") ? 1 : 0;
@@ -365,9 +393,9 @@ class Product extends CI_Controller {
 			$viewData->subViewFolder= "image";
 
 			$viewData->item_images = $this->product_image_model->get_all(
-              array(
-               "product_id" => $parent_id
-              ),"rank ASC"
+				array(
+					"product_id" => $parent_id
+				),"rank ASC"
 			);
 			
 
