@@ -4,3 +4,27 @@
 	font-style: italic;
 	
 }
+
+td{
+	vertical-align: middle!important;
+
+}
+th{
+	text-align: center;
+}
+.order{
+	text-align: center;
+	width: 50px;
+}
+
+.w100{
+     width: 100px;
+}
+
+.w50{
+	width: 50px;
+	text-align: center;
+}
+.sortable{
+	cursor: move;
+}

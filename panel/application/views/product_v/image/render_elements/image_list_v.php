@@ -8,8 +8,8 @@
 
 <table class= "table table-bordered table-striped table-hover pictures_list">
 <thead>
-<th><i class = "fa fa-reorder"></i></th>
-<th>#id</th>
+<th class = "order"><i class = "fa fa-reorder"></i></th>
+<th class = "w50">#id</th>
 <th>Görsel</th>
 <th>Resim Adı</th>
 <th>Durumu</th>
@@ -21,8 +21,8 @@
 
 <tr id="ord-<?php echo $image->id; ?>">
 
-<td><i class = "fa fa-reorder"></i></td>
-<td class= "w100 text-center"><?php echo $image->id; ?></td>
+<td class = "order"><i class = "fa fa-reorder"></i></td>
+<td class= "w50">#<?php echo $image->id; ?></td>
 <td class= "w100 text-center">
 <img width="50" src="<?php echo base_url("uploads/{$viewFolder}/$image->img_url"); ?>" alt = "<?php echo $image->img_url; ?>" class="img-responsive"></img>
 </td>

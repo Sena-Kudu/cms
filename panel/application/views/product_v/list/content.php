@@ -15,10 +15,10 @@
 				</div>
 			<?php } else{ ?>
 
-				<table class="table table-hover table-striped content-container">
+				<table class="table table-hover table-striped content-container table-bordered">
 					<thead>
-						<th><i class = "fa fa-reorder"></i></th>
-						<th>#id</th>
+						<th class = "order"><i class = "fa fa-reorder"></i></th>
+						<th class = "w50">#id</th>
 						<th>Başlık</th>
 						<th>url</th>
 						<th>Açıklama</th>
@@ -29,8 +29,8 @@
 							# code...
 								?>	
 								<tr id="ord-<?php echo $items->id; ?>">
-									<td><i class = "fa fa-reorder"></i></td>
-									<td><?php echo $items->id; ?></td>
+									<td class = "order"><i class = "fa fa-reorder"></i></td>
+									<td class = "w50">#<?php echo $items->id; ?></td>
 									<td><?php echo $items->title; ?></td>
 									<td><?php echo $items->url; ?></td>
 									<td><?php echo $items->description; ?></td>
