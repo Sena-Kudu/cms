@@ -70,16 +70,28 @@ class Product extends CI_Controller {
 			);
 
 
-            //TODO Alert sistemi eklenecek.
+            //TODO Alert sistemi
 			if($insert){
-				redirect(base_url("product"));
+				$alert = array(
+					"title" => "İşlem Başarılıdır",
+					"text"  => "Kayıt başarılı bir şekilde eklendi",
+					"type"  => "success"
+				);
 
 			}
 			else{
 
-				redirect(base_url("product"));
+				$alert = array(
+					"title" => "İşlem Başarısızdır",
+					"text"  => "Kayıt ekleme sırasında bir problem oluştu",
+					"type"  => "error"
+				);
 				
 			}
+
+			$this->session->set_flashdata("alert", $alert);
+
+			redirect(base_url("product"));
 		}
 
 		else {
@@ -150,197 +162,270 @@ class Product extends CI_Controller {
 
             //TODO Alert sistemi eklenecek.
 			if($update){
-				redirect(base_url("product"));
+				$alert = array(
+					"title" => "İşlem Başarılıdır",
+					"text"  => "Kayıt başarılı bir şekilde güncellendi",
+					"type"  => "success"
+				);
 
 			}
 			else{
 
-				redirect(base_url("product"));
+				$alert = array(
+					"title" => "İşlem Başarısızdır",
+					"text"  => "Güncelleme sırasında bir problem oluştu",
+					"type"  => "error"
+				);
 				
 			}
+
+			$this->session->set_flashdata("alert", $alert);
+
+			redirect(base_url("product"));
 		}
-
-		else {
-
-			$viewData = new stdClass();
-			$item = $this->product_model->get(
-				array(
-					"id" => $id
-
-				)
-			);
-
-			/** View e gönderilecek değişkenlerin set edilmesi */
-			$viewData->viewFolder = $this->viewFolder;
-			$viewData->subViewFolder= "update";
-			$viewData->form_error= true;
-			$viewData->item = $item;
-			$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
-			
-		} 
-
-	}
 	
-	public function delete($id){
 
-		$delete = $this->product_model->delete(
+	else {
+
+		$viewData = new stdClass();
+		$item = $this->product_model->get(
 			array(
-				"id"  => $id
+				"id" => $id
+
 			)
 		);
 
-     //TODO Alert sistemi eklenecek.
-		if($delete){
+		/** View e gönderilecek değişkenlerin set edilmesi */
+		$viewData->viewFolder = $this->viewFolder;
+		$viewData->subViewFolder= "update";
+		$viewData->form_error= true;
+		$viewData->item = $item;
+		$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
 
-			redirect(base_url("product"));
-		}
-		else{
-			redirect(base_url("product"));
-		}
+	} 
+
+}
+
+public function delete($id){
+
+	$delete = $this->product_model->delete(
+		array(
+			"id"  => $id
+		)
+	);
+
+     //TODO Alert sistemi eklenecek.
+	if($delete){
+		$alert = array(
+			"title" => "İşlem Başarılıdır",
+			"text"  => "Kayıt başarılı bir şekilde silindi",
+			"type"  => "success"
+		);
+
+	}
+	else{
+
+		$alert = array(
+			"title" => "İşlem Başarısızdır",
+			"text"  => "Silme sırasında bir problem oluştu",
+			"type"  => "error"
+		);
 
 	}
 
-	public function imageDelete($id, $parent_id){
+	$this->session->set_flashdata("alert", $alert);
 
-		$fileName = $this->product_image_model->get(
-            array(
-                   "id" => $id
-            )
+	redirect(base_url("product"));
+}
+
+
+
+public function imageDelete($id, $parent_id){
+
+	$fileName = $this->product_image_model->get(
+		array(
+			"id" => $id
+		)
+	);
+
+	$delete = $this->product_image_model->delete(
+		array(
+			"id"         => $id,
+			"product_id" => $parent_id
+		)
+	);
+
+     //TODO Alert sistemi eklenecek.
+	if($delete){
+
+		unlink("uploads/{$this->viewFolder}/$fileName->img_url");
+
+		redirect(base_url("product/image_form/$parent_id"));
+	}
+	else{
+		redirect(base_url("product/image_form/$parent_id"));
+	}
+
+}
+
+public function isActiveSetter($id){
+
+	if($id){
+		$isActive = ($this->input->post("data") === "true") ? 1 : 0;
+			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
+
+		$this->product_model->update(
+			array(
+				"id"  => $id
+			),
+			array(
+				"isActive" => $isActive
+			)
 		);
+	}
 
-		$delete = $this->product_image_model->delete(
+}
+
+public function rankSetter(){
+
+	$data = $this->input->post("data");
+	parse_str($data, $order);
+	$items = $order["ord"];
+	foreach ($items as $rank => $id) {
+		$this->product_model->update(
+			array(
+				"id"     => $id,
+				"rank!=" => $rank
+			),
+			array(
+
+				"rank"=> $rank
+			)
+		);
+	}
+
+}
+
+public function imageRankSetter(){
+
+	$data = $this->input->post("data");
+	parse_str($data, $order);
+	$items = $order["ord"];
+	foreach ($items as $rank => $id) {
+		$this->product_image_model->update(
+			array(
+				"id"     => $id,
+				"rank!=" => $rank
+			),
+			array(
+
+				"rank"=> $rank
+			)
+		);
+	}
+
+}
+
+public function image_form($id){
+
+	$viewData = new stdClass();
+
+	/** View e gönderilecek değişkenlerin set edilmesi */
+	$viewData->viewFolder = $this->viewFolder;
+	$viewData->subViewFolder= "image";
+
+	$viewData->items = $this->product_model->get(
+		array(
+			"id" => $id
+		)
+	);
+
+	$viewData->item_images = $this->product_image_model->get_all(
+		array(
+			"product_id" => $id
+		),
+		"rank ASC"
+	);
+
+
+	$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
+
+}
+
+public function image_upload($id){
+	$file_name = convertToSEO(pathinfo($_FILES["file"]["name"], PATHINFO_FILENAME)) . "." . pathinfo($_FILES["file"]["name"] , PATHINFO_EXTENSION);
+
+	$config["allowed_types"] = "jpg|jpeg|png"	;
+	$config["upload_path"]   = "uploads/$this->viewFolder/";
+	$config["file_name"]     = $file_name;
+
+	$this->load->library("upload", $config);
+	$upload = $this->upload->do_upload("file");
+	if($upload){
+		$uploaded_file = $this->upload->data("file_name");
+
+		$this->product_image_model->add(
+
+			array(
+				"img_url"    => $uploaded_file,
+				"rank"       => 0,
+				"isActive"   => 1,
+				"createdAt"  =>date("Y-m-d H:i:s"),
+				"product_id" =>$id
+			)
+		);
+	}else{
+		echo " işlem başarısız";
+	}
+
+}
+
+public function refresh_image_list($id){
+	$viewData = new stdClass();
+
+	/** View e gönderilecek değişkenlerin set edilmesi */
+	$viewData->viewFolder = $this->viewFolder;
+	$viewData->subViewFolder= "image";
+
+	$viewData->item_images = $this->product_image_model->get_all(
+		array(
+			"product_id" => $id
+		)
+	);
+
+
+	$render_html = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_v",$viewData,true);
+	echo $render_html;
+}
+
+public function isCoverSetter($id, $parent_id){
+
+	if($id && $parent_id){
+		$isCover = ($this->input->post("data") === "true") ? 1 : 0;
+			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
+
+
+			//kapak yapılmak istenen kayıt
+		$this->product_image_model->update(
 			array(
 				"id"         => $id,
 				"product_id" => $parent_id
-			)
-		);
-
-     //TODO Alert sistemi eklenecek.
-		if($delete){
-
-			unlink("uploads/{$this->viewFolder}/$fileName->img_url");
-
-			redirect(base_url("product/image_form/$parent_id"));
-		}
-		else{
-			redirect(base_url("product/image_form/$parent_id"));
-		}
-
-	}
-
-	public function isActiveSetter($id){
-
-		if($id){
-			$isActive = ($this->input->post("data") === "true") ? 1 : 0;
-			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
-			
-			$this->product_model->update(
-				array(
-					"id"  => $id
-				),
-				array(
-					"isActive" => $isActive
-				)
-			);
-		}
-
-	}
-
-	public function rankSetter(){
-
-		$data = $this->input->post("data");
-		parse_str($data, $order);
-		$items = $order["ord"];
-		foreach ($items as $rank => $id) {
-			$this->product_model->update(
-				array(
-					"id"     => $id,
-					"rank!=" => $rank
-				),
-				array(
-
-					"rank"=> $rank
-				)
-			);
-		}
-
-	}
-
-	public function imageRankSetter(){
-
-		$data = $this->input->post("data");
-		parse_str($data, $order);
-		$items = $order["ord"];
-		foreach ($items as $rank => $id) {
-			$this->product_image_model->update(
-				array(
-					"id"     => $id,
-					"rank!=" => $rank
-				),
-				array(
-
-					"rank"=> $rank
-				)
-			);
-		}
-
-	}
-
-	public function image_form($id){
-
-		$viewData = new stdClass();
-
-		/** View e gönderilecek değişkenlerin set edilmesi */
-		$viewData->viewFolder = $this->viewFolder;
-		$viewData->subViewFolder= "image";
-
-		$viewData->items = $this->product_model->get(
-			array(
-				"id" => $id
-			)
-		);
-
-		$viewData->item_images = $this->product_image_model->get_all(
-			array(
-				"product_id" => $id
 			),
-			"rank ASC"
+			array(
+				"isCover" => $isCover
+			)
 		);
 
-
-		$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
-
-	}
-
-	public function image_upload($id){
-		$file_name = convertToSEO(pathinfo($_FILES["file"]["name"], PATHINFO_FILENAME)) . "." . pathinfo($_FILES["file"]["name"] , PATHINFO_EXTENSION);
-
-		$config["allowed_types"] = "jpg|jpeg|png"	;
-		$config["upload_path"]   = "uploads/$this->viewFolder/";
-		$config["file_name"]     = $file_name;
-
-		$this->load->library("upload", $config);
-		$upload = $this->upload->do_upload("file");
-		if($upload){
-			$uploaded_file = $this->upload->data("file_name");
-
-			$this->product_image_model->add(
-
-				array(
-					"img_url"    => $uploaded_file,
-					"rank"       => 0,
-					"isActive"   => 1,
-					"createdAt"  =>date("Y-m-d H:i:s"),
-					"product_id" =>$id
-				)
-			);
-		}else{
-			echo " işlem başarısız";
-		}
-
-	}
-
-	public function refresh_image_list($id){
+            //kapak yapılmayan diğer kayıtlar
+		$this->product_image_model->update(
+			array(
+				"id!="       => $id,
+				"product_id" => $parent_id
+			),
+			array(
+				"isCover" => 0
+			)
+		);
 		$viewData = new stdClass();
 
 		/** View e gönderilecek değişkenlerin set edilmesi */
@@ -349,8 +434,8 @@ class Product extends CI_Controller {
 
 		$viewData->item_images = $this->product_image_model->get_all(
 			array(
-				"product_id" => $id
-			)
+				"product_id" => $parent_id
+			),"rank ASC"
 		);
 
 
@@ -358,73 +443,28 @@ class Product extends CI_Controller {
 		echo $render_html;
 	}
 
-	public function isCoverSetter($id, $parent_id){
 
-		if($id && $parent_id){
-			$isCover = ($this->input->post("data") === "true") ? 1 : 0;
+
+}
+
+public function imageIsActiveSetter($id){
+
+	if($id){
+		$isActive = ($this->input->post("data") === "true") ? 1 : 0;
 			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
-			
 
-			//kapak yapılmak istenen kayıt
-			$this->product_image_model->update(
-				array(
-					"id"         => $id,
-					"product_id" => $parent_id
-				),
-				array(
-					"isCover" => $isCover
-				)
-			);
-
-            //kapak yapılmayan diğer kayıtlar
-			$this->product_image_model->update(
-				array(
-					"id!="       => $id,
-					"product_id" => $parent_id
-				),
-				array(
-					"isCover" => 0
-				)
-			);
-			$viewData = new stdClass();
-
-			/** View e gönderilecek değişkenlerin set edilmesi */
-			$viewData->viewFolder = $this->viewFolder;
-			$viewData->subViewFolder= "image";
-
-			$viewData->item_images = $this->product_image_model->get_all(
-				array(
-					"product_id" => $parent_id
-				),"rank ASC"
-			);
-			
-
-			$render_html = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_v",$viewData,true);
-			echo $render_html;
-		}
-
-
-
+		$this->product_image_model->update(
+			array(
+				"id"  => $id
+			),
+			array(
+				"isActive" => $isActive
+			)
+		);
 	}
 
-	public function imageIsActiveSetter($id){
 
-		if($id){
-			$isActive = ($this->input->post("data") === "true") ? 1 : 0;
-			//true-false bilgisi buraya custom.js ten gelir.custom.js te bu bilgi isActive sınıfına bağlı değişiklik eventi ile alınır ve prop ile true-false değer alınıp jQuery nin post metoduyla gönderilir.
-			
-			$this->product_image_model->update(
-				array(
-					"id"  => $id
-				),
-				array(
-					"isActive" => $isActive
-				)
-			);
-		}
-
-
-	}
+}
 
 
 
