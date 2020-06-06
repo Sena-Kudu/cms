@@ -29,20 +29,20 @@
 					<div class="form-group">
 						<label for="control-demo-6" class="">Haberin Türü</label>
 						<div id="control-demo-6" class="" name = "news_type">
-							<select class="form-control">
+							<select class="form-control news_type_select">
 								<option value = "image">Resim</option>
 								<option value = "video">Video</option>
 								
 							</select>
 						</div>
 					</div><!-- .form-group -->
-					<div class="form-group">
+					<div class="form-group image_upload_container">
 						<label >Görsel Seçiniz</label>
 						<input type="file" name = "image_url" class="form-control">
 					</div>
-					<div class="form-group">
+					<div class="form-group video_url_container">
 						<label>Video URL</label>
-						<input class="form-control" name="video_url" placeholder="Video bağlantısını buraya yapıştırınız.">
+						<input class="form-control " name="video_url" placeholder="Video bağlantısını buraya yapıştırınız.">
 						<?php if(isset($form_error)) { ?>
 							<small class= "input-form-error"> <?php echo form_error("video_url"); ?></small>
 
