@@ -43,8 +43,45 @@ class News extends CI_Controller {
 	}
 
 	public function save(){
+
+
 		$this->load->library("form_validation");
+
 		//kurallar yazılır.
+		
+
+		
+		$news_type = $this->input->post("news_type");
+		
+
+
+		if($news_type == "image") {
+			
+			if($_FILES["image_url"]["name"] == "" ){
+
+                 echo"yeter len";
+				$alert = array(
+					"title" => "İşlem Başarısızdır",
+					"text"  => "Lütfen bir görsel seçiniz",
+					"type"  => "error"
+				);
+				
+
+
+				$this->session->set_flashdata("alert", $alert);
+
+				redirect(base_url("news/new_form"));
+				die();
+				
+			}
+
+		}else if($news_type == "video"){
+
+			echo "video seçildi";
+
+		}
+		
+		
 		$this->form_validation->set_rules("title","Başlık","required|trim");
 
 		$this->form_validation->set_message(
@@ -91,7 +128,7 @@ class News extends CI_Controller {
 
 			$this->session->set_flashdata("alert", $alert);
 
-			redirect(base_url("product"));
+			redirect(base_url("news"));
 		}
 
 		else {

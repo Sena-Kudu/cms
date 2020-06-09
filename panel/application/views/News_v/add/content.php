@@ -10,7 +10,7 @@
 
 			<div class="widget-body">
 
-				<form action = "<?php echo base_url("news/save"); ?>" method = "post">
+				<form action = "<?php echo base_url("news/save"); ?>" method = "post" enctype = "multipart/form-data">
 					<div class="form-group">
 						<label>Başlık</label>
 						<input class="form-control" name="title" placeholder="Başlık">
@@ -28,10 +28,10 @@
 
 					<div class="form-group">
 						<label for="control-demo-6" class="">Haberin Türü</label>
-						<div id="control-demo-6" class="" name = "news_type">
-							<select class="form-control news_type_select">
-								<option value = "image">Resim</option>
-								<option value = "video">Video</option>
+						<div id="control-demo-6" class="" >
+							<select class="form-control news_type_select" name = "news_type">
+								<option value ="image">Resim</option>
+								<option value ="video">Video</option>
 								
 							</select>
 						</div>
