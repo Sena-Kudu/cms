@@ -57,9 +57,9 @@ class News extends CI_Controller {
 
 		if($news_type == "image") {
 			
-			if($_FILES["image_url"]["name"] == "" ){
+			if($_FILES["img_url"]["name"] == "" ){
 
-                 echo"yeter len";
+
 				$alert = array(
 					"title" => "İşlem Başarısızdır",
 					"text"  => "Lütfen bir görsel seçiniz",
@@ -77,7 +77,7 @@ class News extends CI_Controller {
 
 		}else if($news_type == "video"){
 
-			echo "video seçildi";
+			$this->form_validation->set_rules("video_url","Video URL","required|trim");
 
 		}
 		
@@ -95,6 +95,9 @@ class News extends CI_Controller {
 		
 
 		if($validate){
+
+			echo "kayıt işlemi başlasın";
+			die();
 			
 			$insert = $this->news_model->add(
 				array(
@@ -139,6 +142,10 @@ class News extends CI_Controller {
 			$viewData->viewFolder = $this->viewFolder;
 			$viewData->subViewFolder= "add";
 			$viewData->form_error= true;
+			$viewData->news_type = $news_type;
+           
+			
+			
 			$this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index",$viewData);
 			
 		} 
