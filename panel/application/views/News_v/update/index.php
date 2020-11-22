@@ -39,7 +39,10 @@
 <!-- #app-customizer -->
 
 
-<?php $this->load->view("includes/include_script"); ?>
+<?php $this->load->view("includes/include_script");
+ ?>
+
+ <?php $this->load->view("{$viewFolder}/{$subViewFolder}/page_script"); ?>
 
 </body>
 </html>
